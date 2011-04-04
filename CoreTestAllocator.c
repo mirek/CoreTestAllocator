@@ -59,7 +59,7 @@ void *TestAllocatorAllocateCall(CFIndex allocSize, CFOptionFlags hint, void *inf
   CFStringRef address = TestAllocatorCreateStringWithPointer(pointer);
   CFArrayAppendValue(((TestAllocatorInfoRef)info)->addresses, address);
   CFStringRef backtrace = TestAllocatorCreateTraceString();
-  CFMutableArrayRef backtraces = TestAllocatorInfoGetBacktraces(info, address);
+  CFMutableArrayRef backtraces = TestAllocatorInfoGetBacktracesWithAddress(info, address);
   CFArrayAppendValue(backtraces, backtrace);
   CFRelease(backtrace);
   CFRelease(address);
@@ -127,15 +127,15 @@ CFStringRef TestAllocatorCreateTraceString() {
   return trace;
 }
 
-CFMutableArrayRef TestAllocatorGetBacktraces(CFAllocatorRef allocator, CFStringRef address) {
+CFMutableArrayRef TestAllocatorGetBacktracesWithAddress(CFAllocatorRef allocator, CFStringRef address) {
   CFMutableArrayRef backtraces = NULL;
   TestAllocatorInfoRef info = TestAllocatorGetInfo(allocator);
   if (info)
-    backtraces = TestAllocatorInfoGetBacktraces(info, address);
+    backtraces = TestAllocatorInfoGetBacktracesWithAddress(info, address);
   return backtraces;
 }
 
-CFMutableArrayRef TestAllocatorInfoGetBacktraces(TestAllocatorInfoRef info, CFStringRef address) {
+CFMutableArrayRef TestAllocatorInfoGetBacktracesWithAddress(TestAllocatorInfoRef info, CFStringRef address) {
   CFMutableArrayRef backtraces = NULL;
   if (info) {
     backtraces = (CFMutableArrayRef)CFDictionaryGetValue(info->addressBacktraces, address);

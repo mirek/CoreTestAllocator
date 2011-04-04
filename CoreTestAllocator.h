@@ -38,8 +38,8 @@ TestAllocatorInfoRef TestAllocatorGetInfo         (CFAllocatorRef allocator);
 
 // Get backtraces mutable array. Empty array is created in the background if it doesn't exist for specified address.
 // Returns mutable array with zero or more backtraces, never NULL.
-CFMutableArrayRef      TestAllocatorInfoGetBacktraces (TestAllocatorInfoRef info, CFStringRef address);
-CFMutableArrayRef      TestAllocatorGetBacktraces     (CFAllocatorRef allocator, CFStringRef address);
+CFMutableArrayRef      TestAllocatorInfoGetBacktracesWithAddress (TestAllocatorInfoRef info, CFStringRef address);
+CFMutableArrayRef      TestAllocatorGetBacktracesWithAddress     (CFAllocatorRef allocator, CFStringRef address);
 
 CFMutableArrayRef      TestAllocatorInfoGetAddresses  (TestAllocatorInfoRef info);
 CFMutableArrayRef      TestAllocatorGetAddresses      (CFAllocatorRef allocator);

@@ -1,6 +1,98 @@
-# Core Test Allocator
+# Core Test Allocator Reference
+
+Declared in | `CoreTestAllocator.h`
+Copyright   | 2011 Mirek Rusin <mirek [at] me [dot] com>
+     
+## Overview
 
 Test allocator helps spot memory leaks in your Core Foundation based frameworks.
+
+## Functions by Task
+
+### Creating Allocator
+
+* [TestAllocatorCreate](#TestAllocatorCreate)
+
+### Getting Information on Allocated Addresses and Backtraces
+
+* [TestAllocatorGetAddresses](#TestAllocatorGetAddresses)
+* [TestAllocatorGetBacktracesWithAddress](#TestAllocatorGetBacktracesWithAddress)
+* [TestAllocatorCreateTraceString](#TestAllocatorCreateTraceString)
+* [TestAllocatorCreateAddressesAndBacktracesDictionary](#TestAllocatorCreateAddressesAndBacktracesDictionary)
+* [TestAllocatorPrintAddressesAndBacktraces](#TestAllocatorPrintAddressesAndBacktraces)
+
+---
+
+## Functions
+
+<a name="TestAllocatorCreate"></a>
+### TestAllocatorCreate
+
+Creates test allocator.
+
+<pre>
+CFAllocatorRef TestAllocatorCreate (
+  void
+);
+</pre>
+
+#### Return Value
+
+New test allocator. To release allocator use `CFRelease(allocator)`.
+
+<a name="TestAllocatorGetAddresses"></a>
+### TestAllocatorGetAddresses
+
+Get currently allocated addresses.
+
+<pre>
+CFMutableArrayRef TestAllocatorGetAddresses(
+  CFAllocatorRef allocator
+);
+</pre>
+
+#### Return Value
+
+An array of currently allocated addresses.
+
+<a name="TestAllocatorGetBacktracesWithAddress"></a>
+### TestAllocatorGetBacktracesWithAddress
+
+Get a backtrace for the address.
+
+<pre>
+CFMutableArrayRef TestAllocatorGetBacktracesWithAddress(
+  CFAllocatorRef allocator,
+  CFStringRef address
+);
+</pre>
+
+#### Return Value
+
+A backtrace for the address.
+
+<a name="TestAllocatorCreateTraceString"></a>
+### TestAllocatorCreateTraceString
+
+<pre>CFStringRef TestAllocatorCreateTraceString (
+  void
+);</pre>
+
+<a name="TestAllocatorCreateAddressesAndBacktracesDictionary"></a>
+### TestAllocatorCreateAddressesAndBacktracesDictionary
+
+<pre>CFMutableDictionaryRef TestAllocatorCreateAddressesAndBacktracesDictionary (
+  CFAllocatorRef allocator
+);</pre>
+
+<a name="TestAllocatorPrintAddressesAndBacktraces"></a>
+### TestAllocatorPrintAddressesAndBacktraces
+
+<pre>void TestAllocatorPrintAddressesAndBacktraces (
+  CFAllocatorRef allocator
+);</pre>
+
+---
 
 ## Usage
 
@@ -60,9 +152,7 @@ And the
 
     @end
 
-## Output
-
-If you forgot to deallocate an object `TestAllocatorPrintAddressesAndBacktraces(allocator)` will print the stack trace similar to:
+For each non-deallocated address `TestAllocatorPrintAddressesAndBacktraces(allocator)` prints the stack trace similar to:
 
     0x100504390 address not deallocated, allocated from 1 place(s):
     0   CoreOSCTests                        0x00000001000eef31 TestAllocatorCreateTraceString + 97
@@ -85,5 +175,5 @@ If you forgot to deallocate an object `TestAllocatorPrintAddressesAndBacktraces(
     17  otest                               0x00000001000019b4 0x0 + 4294973876
     18  ???                                 0x0000000000000006 0x0 + 6
 
-First two lines will always be the same, the third one tells us that the `OSCCreate` function allocates `0x100504390` address which
-was never released - it's easy to fix it now.
+Where the first two lines can be ignored. The third one shows that the `OSCCreate` function have allocated `0x100504390` address which
+has never been released.
