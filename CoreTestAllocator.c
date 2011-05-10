@@ -5,7 +5,7 @@
 // Copyright 2011 Inteliv Ltd. All rights reserved.
 //
 
-#include "TestAllocator.h"
+#include "CoreTestAllocator.h"
 
 CFAllocatorRef TestAllocatorCreate() {
   TestAllocatorInfoRef testAllocatorInfo = CFAllocatorAllocate(NULL, sizeof(TestAllocatorInfo), 0);
